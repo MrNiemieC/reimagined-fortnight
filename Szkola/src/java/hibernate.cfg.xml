@@ -1,4 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <!--
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
@@ -38,11 +39,20 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-
-    </session-factory>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
+    <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
+    <property name="hibernate.connection.url">jdbc:derby://localhost:1527/Szkola</property>
+    <property name="hibernate.connection.username">Szkola</property>
+    <property name="hibernate.connection.password">Szkola</property>
+    <mapping class="Entities.Klasa"/>
+    <mapping class="Entities.Nauczyciel"/>
+    <mapping class="Entities.Ocena"/>
+    <mapping class="Entities.Przedmiot"/>
+    <mapping class="Entities.PrzedmiotKlas"/>
+    <mapping class="Entities.Przydzialy"/>
+    <mapping class="Entities.Sprawdzian"/>
+    <mapping class="Entities.Uczen"/>
+  </session-factory>
 </hibernate-configuration>
