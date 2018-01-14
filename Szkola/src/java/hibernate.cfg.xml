@@ -46,13 +46,14 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:derby://localhost:1527/Szkola</property>
     <property name="hibernate.connection.username">Szkola</property>
     <property name="hibernate.connection.password">Szkola</property>
-    <mapping class="Entities.Klasa"/>
-    <mapping class="Entities.Nauczyciel"/>
-    <mapping class="Entities.Ocena"/>
-    <mapping class="Entities.Przedmiot"/>
-    <mapping class="Entities.PrzedmiotKlas"/>
-    <mapping class="Entities.Przydzialy"/>
-    <mapping class="Entities.Sprawdzian"/>
-    <mapping class="Entities.Uczen"/>
+    <mapping class="entities.Dyrektor"/>
+    <mapping class="entities.Klasa"/>
+    <mapping class="entities.Nauczyciel"/>
+    <mapping class="entities.Ocena"/>
+    <mapping class="entities.Przedmiot"/>
+    <mapping class="entities.PrzedmiotKlas"/>
+    <mapping class="entities.Przydzialy"/>
+    <mapping class="entities.Sprawdzian"/>
+    <mapping class="entities.Uczen"/>
   </session-factory>
 </hibernate-configuration>

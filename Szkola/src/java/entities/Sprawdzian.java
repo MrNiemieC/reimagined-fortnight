@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,35 +23,40 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Student
+ * @author niemi
  */
 @Entity
 @Table(name = "SPRAWDZIAN")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Sprawdzian.findAll", query = "SELECT s FROM Sprawdzian s")})
+    @NamedQuery(name = "Sprawdzian.findAll", query = "SELECT s FROM Sprawdzian s")
+    , @NamedQuery(name = "Sprawdzian.findById", query = "SELECT s FROM Sprawdzian s WHERE s.id = :id")
+    , @NamedQuery(name = "Sprawdzian.findByNazwa", query = "SELECT s FROM Sprawdzian s WHERE s.nazwa = :nazwa")
+    , @NamedQuery(name = "Sprawdzian.findByData", query = "SELECT s FROM Sprawdzian s WHERE s.data = :data")})
 public class Sprawdzian implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     private Integer id;
     @Size(max = 40)
     @Column(name = "NAZWA")
     private String nazwa;
-    @Column(name = "DATA")
+    @Column(name = "Data")
     @Temporal(TemporalType.DATE)
     private Date data;
     @JoinColumn(name = "ID_PRZEDMIOTU_KLASA", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private PrzedmiotKlas przedmiotKlas;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sprawdzian")
+    private PrzedmiotKlas idPrzedmiotuKlasa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSprawdzian")
     private Collection<Ocena> ocenaCollection;
 
     public Sprawdzian() {
@@ -83,14 +90,15 @@ public class Sprawdzian implements Serializable {
         this.data = data;
     }
 
-    public PrzedmiotKlas getPrzedmiotKlas() {
-        return przedmiotKlas;
+    public PrzedmiotKlas getIdPrzedmiotuKlasa() {
+        return idPrzedmiotuKlasa;
     }
 
-    public void setPrzedmiotKlas(PrzedmiotKlas przedmiotKlas) {
-        this.przedmiotKlas = przedmiotKlas;
+    public void setIdPrzedmiotuKlasa(PrzedmiotKlas idPrzedmiotuKlasa) {
+        this.idPrzedmiotuKlasa = idPrzedmiotuKlasa;
     }
 
+    @XmlTransient
     public Collection<Ocena> getOcenaCollection() {
         return ocenaCollection;
     }

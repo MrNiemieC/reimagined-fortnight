@@ -9,36 +9,40 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Student
+ * @author niemi
  */
 @Entity
 @Table(name = "PRZYDZIALY")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Przydzialy.findAll", query = "SELECT p FROM Przydzialy p")})
+    @NamedQuery(name = "Przydzialy.findAll", query = "SELECT p FROM Przydzialy p")
+    , @NamedQuery(name = "Przydzialy.findById", query = "SELECT p FROM Przydzialy p WHERE p.id = :id")})
 public class Przydzialy implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     private Integer id;
     @JoinColumn(name = "ID_NAUCZYCIEL", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Nauczyciel nauczyciel;
+    private Nauczyciel idNauczyciel;
     @JoinColumn(name = "ID_PRZEDMIOT", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Przedmiot przedmiot;
+    private Przedmiot idPrzedmiot;
 
     public Przydzialy() {
     }
@@ -55,20 +59,20 @@ public class Przydzialy implements Serializable {
         this.id = id;
     }
 
-    public Nauczyciel getNauczyciel() {
-        return nauczyciel;
+    public Nauczyciel getIdNauczyciel() {
+        return idNauczyciel;
     }
 
-    public void setNauczyciel(Nauczyciel nauczyciel) {
-        this.nauczyciel = nauczyciel;
+    public void setIdNauczyciel(Nauczyciel idNauczyciel) {
+        this.idNauczyciel = idNauczyciel;
     }
 
-    public Przedmiot getPrzedmiot() {
-        return przedmiot;
+    public Przedmiot getIdPrzedmiot() {
+        return idPrzedmiot;
     }
 
-    public void setPrzedmiot(Przedmiot przedmiot) {
-        this.przedmiot = przedmiot;
+    public void setIdPrzedmiot(Przedmiot idPrzedmiot) {
+        this.idPrzedmiot = idPrzedmiot;
     }
 
     @Override

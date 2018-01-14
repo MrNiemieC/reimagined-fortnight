@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,32 +20,40 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Student
+ * @author niemi
  */
 @Entity
 @Table(name = "UCZEN")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Uczen.findAll", query = "SELECT u FROM Uczen u")})
+    @NamedQuery(name = "Uczen.findAll", query = "SELECT u FROM Uczen u")
+    , @NamedQuery(name = "Uczen.findById", query = "SELECT u FROM Uczen u WHERE u.id = :id")
+    , @NamedQuery(name = "Uczen.findByImie", query = "SELECT u FROM Uczen u WHERE u.imie = :imie")
+    , @NamedQuery(name = "Uczen.findByNazwisko", query = "SELECT u FROM Uczen u WHERE u.nazwisko = :nazwisko")})
 public class Uczen implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     private Integer id;
     @Size(max = 40)
     @Column(name = "IMIE")
     private String imie;
+    @Size(max = 40)
+    @Column(name = "NAZWISKO")
+    private String nazwisko;
     @JoinColumn(name = "ID_KLASA", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Klasa klasa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "uczen")
+    private Klasa idKlasa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUczen")
     private Collection<Ocena> ocenaCollection;
 
     public Uczen() {
@@ -69,14 +79,23 @@ public class Uczen implements Serializable {
         this.imie = imie;
     }
 
-    public Klasa getKlasa() {
-        return klasa;
+    public String getNazwisko() {
+        return nazwisko;
     }
 
-    public void setKlasa(Klasa klasa) {
-        this.klasa = klasa;
+    public void setNazwisko(String nazwisko) {
+        this.nazwisko = nazwisko;
     }
 
+    public Klasa getIdKlasa() {
+        return idKlasa;
+    }
+
+    public void setIdKlasa(Klasa idKlasa) {
+        this.idKlasa = idKlasa;
+    }
+
+    @XmlTransient
     public Collection<Ocena> getOcenaCollection() {
         return ocenaCollection;
     }

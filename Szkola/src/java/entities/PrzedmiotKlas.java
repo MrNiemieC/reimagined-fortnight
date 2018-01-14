@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,35 +20,38 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Student
+ * @author niemi
  */
 @Entity
 @Table(name = "PRZEDMIOT_KLAS")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PrzedmiotKlas.findAll", query = "SELECT p FROM PrzedmiotKlas p")})
+    @NamedQuery(name = "PrzedmiotKlas.findAll", query = "SELECT p FROM PrzedmiotKlas p")
+    , @NamedQuery(name = "PrzedmiotKlas.findById", query = "SELECT p FROM PrzedmiotKlas p WHERE p.id = :id")})
 public class PrzedmiotKlas implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     private Integer id;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "przedmiotKlas")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPrzedmiotuKlasa")
     private Collection<Sprawdzian> sprawdzianCollection;
     @JoinColumn(name = "ID_KLASA", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Klasa klasa;
+    private Klasa idKlasa;
     @JoinColumn(name = "ID_NAUCZYCIEL", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Nauczyciel nauczyciel;
+    private Nauczyciel idNauczyciel;
     @JoinColumn(name = "ID_PRZEDMIOT", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Przedmiot przedmiot;
+    private Przedmiot idPrzedmiot;
 
     public PrzedmiotKlas() {
     }
@@ -63,6 +68,7 @@ public class PrzedmiotKlas implements Serializable {
         this.id = id;
     }
 
+    @XmlTransient
     public Collection<Sprawdzian> getSprawdzianCollection() {
         return sprawdzianCollection;
     }
@@ -71,28 +77,28 @@ public class PrzedmiotKlas implements Serializable {
         this.sprawdzianCollection = sprawdzianCollection;
     }
 
-    public Klasa getKlasa() {
-        return klasa;
+    public Klasa getIdKlasa() {
+        return idKlasa;
     }
 
-    public void setKlasa(Klasa klasa) {
-        this.klasa = klasa;
+    public void setIdKlasa(Klasa idKlasa) {
+        this.idKlasa = idKlasa;
     }
 
-    public Nauczyciel getNauczyciel() {
-        return nauczyciel;
+    public Nauczyciel getIdNauczyciel() {
+        return idNauczyciel;
     }
 
-    public void setNauczyciel(Nauczyciel nauczyciel) {
-        this.nauczyciel = nauczyciel;
+    public void setIdNauczyciel(Nauczyciel idNauczyciel) {
+        this.idNauczyciel = idNauczyciel;
     }
 
-    public Przedmiot getPrzedmiot() {
-        return przedmiot;
+    public Przedmiot getIdPrzedmiot() {
+        return idPrzedmiot;
     }
 
-    public void setPrzedmiot(Przedmiot przedmiot) {
-        this.przedmiot = przedmiot;
+    public void setIdPrzedmiot(Przedmiot idPrzedmiot) {
+        this.idPrzedmiot = idPrzedmiot;
     }
 
     @Override

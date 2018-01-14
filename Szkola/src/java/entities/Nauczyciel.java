@@ -11,28 +11,35 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Student
+ * @author niemi
  */
 @Entity
 @Table(name = "NAUCZYCIEL")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Nauczyciel.findAll", query = "SELECT n FROM Nauczyciel n")})
+    @NamedQuery(name = "Nauczyciel.findAll", query = "SELECT n FROM Nauczyciel n")
+    , @NamedQuery(name = "Nauczyciel.findById", query = "SELECT n FROM Nauczyciel n WHERE n.id = :id")
+    , @NamedQuery(name = "Nauczyciel.findByImie", query = "SELECT n FROM Nauczyciel n WHERE n.imie = :imie")
+    , @NamedQuery(name = "Nauczyciel.findByNazwisko", query = "SELECT n FROM Nauczyciel n WHERE n.nazwisko = :nazwisko")})
 public class Nauczyciel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     private Integer id;
     @Size(max = 40)
@@ -41,11 +48,11 @@ public class Nauczyciel implements Serializable {
     @Size(max = 40)
     @Column(name = "NAZWISKO")
     private String nazwisko;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nauczyciel")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idNauczyciel")
     private Collection<PrzedmiotKlas> przedmiotKlasCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nauczyciel")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idNauczyciel")
     private Collection<Klasa> klasaCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nauczyciel")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idNauczyciel")
     private Collection<Przydzialy> przydzialyCollection;
 
     public Nauczyciel() {
@@ -79,6 +86,7 @@ public class Nauczyciel implements Serializable {
         this.nazwisko = nazwisko;
     }
 
+    @XmlTransient
     public Collection<PrzedmiotKlas> getPrzedmiotKlasCollection() {
         return przedmiotKlasCollection;
     }
@@ -87,6 +95,7 @@ public class Nauczyciel implements Serializable {
         this.przedmiotKlasCollection = przedmiotKlasCollection;
     }
 
+    @XmlTransient
     public Collection<Klasa> getKlasaCollection() {
         return klasaCollection;
     }
@@ -95,6 +104,7 @@ public class Nauczyciel implements Serializable {
         this.klasaCollection = klasaCollection;
     }
 
+    @XmlTransient
     public Collection<Przydzialy> getPrzydzialyCollection() {
         return przydzialyCollection;
     }

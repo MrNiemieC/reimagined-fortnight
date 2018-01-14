@@ -11,34 +11,42 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Student
+ * @author niemi
  */
 @Entity
 @Table(name = "PRZEDMIOT")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Przedmiot.findAll", query = "SELECT p FROM Przedmiot p")})
+    @NamedQuery(name = "Przedmiot.findAll", query = "SELECT p FROM Przedmiot p")
+    , @NamedQuery(name = "Przedmiot.findById", query = "SELECT p FROM Przedmiot p WHERE p.id = :id")
+    , @NamedQuery(name = "Przedmiot.findByNazwa", query = "SELECT p FROM Przedmiot p WHERE p.nazwa = :nazwa")})
 public class Przedmiot implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     private Integer id;
+    @Size(max = 40)
     @Column(name = "NAZWA")
-    private Integer nazwa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "przedmiot")
+    private String nazwa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPrzedmiot")
     private Collection<PrzedmiotKlas> przedmiotKlasCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "przedmiot")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPrzedmiot")
     private Collection<Przydzialy> przydzialyCollection;
 
     public Przedmiot() {
@@ -56,14 +64,15 @@ public class Przedmiot implements Serializable {
         this.id = id;
     }
 
-    public Integer getNazwa() {
+    public String getNazwa() {
         return nazwa;
     }
 
-    public void setNazwa(Integer nazwa) {
+    public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
 
+    @XmlTransient
     public Collection<PrzedmiotKlas> getPrzedmiotKlasCollection() {
         return przedmiotKlasCollection;
     }
@@ -72,6 +81,7 @@ public class Przedmiot implements Serializable {
         this.przedmiotKlasCollection = przedmiotKlasCollection;
     }
 
+    @XmlTransient
     public Collection<Przydzialy> getPrzydzialyCollection() {
         return przydzialyCollection;
     }
