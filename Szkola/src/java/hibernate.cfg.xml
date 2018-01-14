@@ -45,5 +45,14 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
     <property name="hibernate.connection.username">Szkola</property>
     <property name="hibernate.connection.password">Szkola</property>
+    <mapping class="Entities.Dyrektor"/>
+    <mapping class="Entities.Klasa"/>
+    <mapping class="Entities.Nauczyciel"/>
+    <mapping class="Entities.Ocena"/>
+    <mapping class="Entities.Przedmiot"/>
+    <mapping class="Entities.PrzedmiotKlas"/>
+    <mapping class="Entities.Przydzialy"/>
+    <mapping class="Entities.Sprawdzian"/>
+    <mapping class="Entities.Uczen"/>
   </session-factory>
 </hibernate-configuration>
