@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditPrzydzialyTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditPrzydzialyLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{przydzialyController.selected.id}" title="#{bundle.EditPrzydzialyTitle_id}" required="true" requiredMessage="#{bundle.EditPrzydzialyRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditPrzydzialyLabel_nauczyciel}" for="nauczyciel" />
+                    <h:selectOneMenu id="nauczyciel" value="#{przydzialyController.selected.nauczyciel}" title="#{bundle.EditPrzydzialyTitle_nauczyciel}" required="true" requiredMessage="#{bundle.EditPrzydzialyRequiredMessage_nauczyciel}">
+                        <f:selectItems value="#{nauczycielController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditPrzydzialyLabel_przedmiot}" for="przedmiot" />
+                    <h:selectOneMenu id="przedmiot" value="#{przydzialyController.selected.przedmiot}" title="#{bundle.EditPrzydzialyTitle_przedmiot}" required="true" requiredMessage="#{bundle.EditPrzydzialyRequiredMessage_przedmiot}">
+                        <f:selectItems value="#{przedmiotController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{przydzialyController.update}" value="#{bundle.EditPrzydzialySaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditPrzydzialyViewLink}"/>
+                <br />
+                <h:commandLink action="#{przydzialyController.prepareList}" value="#{bundle.EditPrzydzialyShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditPrzydzialyIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

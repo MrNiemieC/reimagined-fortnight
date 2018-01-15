@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditNauczycielTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditNauczycielLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{nauczycielController.selected.id}" title="#{bundle.EditNauczycielTitle_id}" required="true" requiredMessage="#{bundle.EditNauczycielRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditNauczycielLabel_imie}" for="imie" />
+                    <h:inputText id="imie" value="#{nauczycielController.selected.imie}" title="#{bundle.EditNauczycielTitle_imie}" />
+                    <h:outputLabel value="#{bundle.EditNauczycielLabel_nazwisko}" for="nazwisko" />
+                    <h:inputText id="nazwisko" value="#{nauczycielController.selected.nazwisko}" title="#{bundle.EditNauczycielTitle_nazwisko}" />
+                </h:panelGrid>
+                <h:commandLink action="#{nauczycielController.update}" value="#{bundle.EditNauczycielSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditNauczycielViewLink}"/>
+                <br />
+                <h:commandLink action="#{nauczycielController.prepareList}" value="#{bundle.EditNauczycielShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditNauczycielIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditUczenTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditUczenLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{uczenController.selected.id}" title="#{bundle.EditUczenTitle_id}" required="true" requiredMessage="#{bundle.EditUczenRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditUczenLabel_imie}" for="imie" />
+                    <h:inputText id="imie" value="#{uczenController.selected.imie}" title="#{bundle.EditUczenTitle_imie}" />
+                    <h:outputLabel value="#{bundle.EditUczenLabel_nazwisko}" for="nazwisko" />
+                    <h:inputText id="nazwisko" value="#{uczenController.selected.nazwisko}" title="#{bundle.EditUczenTitle_nazwisko}" />
+                    <h:outputLabel value="#{bundle.EditUczenLabel_klasa}" for="klasa" />
+                    <h:selectOneMenu id="klasa" value="#{uczenController.selected.klasa}" title="#{bundle.EditUczenTitle_klasa}" required="true" requiredMessage="#{bundle.EditUczenRequiredMessage_klasa}">
+                        <f:selectItems value="#{klasaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{uczenController.update}" value="#{bundle.EditUczenSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditUczenViewLink}"/>
+                <br />
+                <h:commandLink action="#{uczenController.prepareList}" value="#{bundle.EditUczenShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditUczenIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

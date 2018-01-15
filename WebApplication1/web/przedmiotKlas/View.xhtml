@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewPrzedmiotKlasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewPrzedmiotKlasLabel_id}"/>
+                    <h:outputText value="#{przedmiotKlasController.selected.id}" title="#{bundle.ViewPrzedmiotKlasTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewPrzedmiotKlasLabel_klasa}"/>
+                    <h:outputText value="#{przedmiotKlasController.selected.klasa}" title="#{bundle.ViewPrzedmiotKlasTitle_klasa}"/>
+                    <h:outputText value="#{bundle.ViewPrzedmiotKlasLabel_nauczyciel}"/>
+                    <h:outputText value="#{przedmiotKlasController.selected.nauczyciel}" title="#{bundle.ViewPrzedmiotKlasTitle_nauczyciel}"/>
+                    <h:outputText value="#{bundle.ViewPrzedmiotKlasLabel_przedmiot}"/>
+                    <h:outputText value="#{przedmiotKlasController.selected.przedmiot}" title="#{bundle.ViewPrzedmiotKlasTitle_przedmiot}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{przedmiotKlasController.destroyAndView}" value="#{bundle.ViewPrzedmiotKlasDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewPrzedmiotKlasEditLink}"/>
+                <br />
+                <h:commandLink action="#{przedmiotKlasController.prepareCreate}" value="#{bundle.ViewPrzedmiotKlasCreateLink}" />
+                <br />
+                <h:commandLink action="#{przedmiotKlasController.prepareList}" value="#{bundle.ViewPrzedmiotKlasShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewPrzedmiotKlasIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

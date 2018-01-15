@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditSprawdzianTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditSprawdzianLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{sprawdzianController.selected.id}" title="#{bundle.EditSprawdzianTitle_id}" required="true" requiredMessage="#{bundle.EditSprawdzianRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditSprawdzianLabel_nazwa}" for="nazwa" />
+                    <h:inputText id="nazwa" value="#{sprawdzianController.selected.nazwa}" title="#{bundle.EditSprawdzianTitle_nazwa}" />
+                    <h:outputLabel value="#{bundle.EditSprawdzianLabel_dataSpr}" for="dataSpr" />
+                    <h:inputText id="dataSpr" value="#{sprawdzianController.selected.dataSpr}" title="#{bundle.EditSprawdzianTitle_dataSpr}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditSprawdzianLabel_przedmiotKlas}" for="przedmiotKlas" />
+                    <h:selectOneMenu id="przedmiotKlas" value="#{sprawdzianController.selected.przedmiotKlas}" title="#{bundle.EditSprawdzianTitle_przedmiotKlas}" required="true" requiredMessage="#{bundle.EditSprawdzianRequiredMessage_przedmiotKlas}">
+                        <f:selectItems value="#{przedmiotKlasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{sprawdzianController.update}" value="#{bundle.EditSprawdzianSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditSprawdzianViewLink}"/>
+                <br />
+                <h:commandLink action="#{sprawdzianController.prepareList}" value="#{bundle.EditSprawdzianShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditSprawdzianIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
