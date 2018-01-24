@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Templates/MainTemplate.xhtml">
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable  rendered="#{usersBeansAdmin.view}" id="user" value="#{usersBeansAdmin.users}" var="user" selection="#{usersBeansAdmin.selectedUser}"  rowKey="#{user.id}">
+                        <f:facet name="header">
+                            Użytkownicy
+                        </f:facet>
+                        <p:column headerText="Login">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.login}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="login" value="#{user.login}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Password">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.password}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="password" value="#{user.password}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nauczyciel">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.nauczyciel.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{usersBeansAdmin.nauczyciele}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Uczeń">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.uczen.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{usersBeansAdmin.uczniowie}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Dyrektor">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.dyrektor.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{usersBeansAdmin.dyrektory}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:90px">
+                            <p:commandButton update=":form :form3" icon="ui-icon-pencil" value="Edytuj" actionListener="#{usersBeansAdmin.setEdit(true)}">
+                                <f:setPropertyActionListener value="#{user}" target="#{usersBeansAdmin.selectedUser}" />
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuwanie" actionListener="#{usersBeansAdmin.setDelete(true)}" />
+                            <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{usersBeansAdmin.setDodaj(true)}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form2">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable rendered="#{usersBeansAdmin.delete}" id="user" value="#{usersBeansAdmin.users2}" var="user" selection="#{usersBeansAdmin.selectedUsers}"  rowKey="#{user.id}">
+                        <f:facet name="header">
+                            Użytkownicy
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                        <p:column headerText="Login">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.login}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="login" value="#{user.login}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Password">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.password}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="password" value="#{user.password}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nauczyciel">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.nauczyciel.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{user.nauczyciel}" style="width:100%">
+                                        <f:selectItems value="#{usersBeansAdmin.nauczyciele}" var="nauczyciel" itemLabel="#{nauczyciel.wyswietl()}" itemValue="#{nauczyciel}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Uczeń">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.uczen.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{user.uczen}" style="width:100%">
+                                        <f:selectItems value="#{usersBeansAdmin.uczniowie}" var="uczen" itemLabel="#{uczen.wyswietl()}" itemValue="#{uczen}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Dyrektor">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{user.dyrektor.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{user.dyrektor}" style="width:100%">
+                                        <f:selectItems value="#{usersBeansAdmin.dyrektory}" var="dyrektor" itemLabel="#{dyrektor.wyswietl()}" itemValue="#{dyrektor}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuń" actionListener="#{usersBeansAdmin.deleteUsers()}" />
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Wstecz" actionListener="#{usersBeansAdmin.wstecz()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form3">
+                    <p:dataTable id="users" value="#{usersBeansAdmin.selectedUser}" var="users" rendered="#{usersBeansAdmin.edit}" editable="true" editMode="cell" >
+                        <p:column headerText="Login">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usersBeansAdmin.selectedUser.login}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="login" value="#{usersBeansAdmin.selectedUser.login}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Password">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usersBeansAdmin.selectedUser.password}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="password" value="#{usersBeansAdmin.selectedUser.password}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nauczyciel">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usersBeansAdmin.selectedUser.nauczyciel.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{usersBeansAdmin.selectedUser.nauczyciel}" style="width:100%">
+                                        <f:selectItems value="#{usersBeansAdmin.nauczyciele}" var="nauczyciel" itemLabel="#{nauczyciel.wyswietl()}" itemValue="#{nauczyciel}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Uczeń">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usersBeansAdmin.selectedUser.uczen.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{usersBeansAdmin.selectedUser.uczen}" style="width:100%">
+                                        <f:selectItems value="#{usersBeansAdmin.uczniowie}" var="uczen" itemLabel="#{uczen.wyswietl()}" itemValue="#{uczen}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Dyrektor">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usersBeansAdmin.selectedUser.dyrektor.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{usersBeansAdmin.selectedUser.dyrektor}" style="width:100%">
+                                        <f:selectItems value="#{usersBeansAdmin.dyrektory}" var="dyrektor" itemLabel="#{dyrektor.wyswietl()}" itemValue="#{dyrektor}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form3" icon="ui-icon-check" value="Zapisz" actionListener="#{usersBeansAdmin.zapisz(usersBeansAdmin.selectedUser)}" />
+                            <p:commandButton update=":form :form3" icon="ui-icon-close" value="Anuluj" actionListener="#{usersBeansAdmin.anuluj()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form4">
+                    <p:panelGrid class="ui-noborder" rendered="#{usersBeansAdmin.dodaj}">  
+                        <f:facet name="header">  
+                            <p:row>  
+                                <p:column style="font-weight: bold;">Login</p:column>  
+                                <p:column style="font-weight: bold;">Password</p:column>   
+                                <p:column style="font-weight: bold;">Nauczyciel</p:column>
+                                <p:column style="font-weight: bold;">Uczeń</p:column>
+                                <p:column style="font-weight: bold;">Dyrektor</p:column>
+                                <p:column/>
+                                <p:column/>
+                            </p:row>  
+                        </f:facet>
+                        <p:row>  
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addUserBeansAdmin.login}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="login" value="#{addUserBeansAdmin.login}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addUserBeansAdmin.password}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="password" value="#{addUserBeansAdmin.password}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addUserBeansAdmin.nauczyciel.wyswietl()}" /></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{addUserBeansAdmin.nauczyciel}" style="width:100%" id="nauczyciel">
+                                            <f:selectItems value="#{addUserBeansAdmin.nauczyciele}" var="nauczyciel" itemLabel="#{nauczyciel.wyswietl()}" itemValue="#{nauczyciel}"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addUserBeansAdmin.uczen.wyswietl()}" /></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{addUserBeansAdmin.uczen}" style="width:100%" id="uczen">
+                                            <f:selectItems value="#{addUserBeansAdmin.uczniowie}" var="uczen" itemLabel="#{uczen.wyswietl()}" itemValue="#{uczen}"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addUserBeansAdmin.dyrektor.wyswietl()}" /></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{addUserBeansAdmin.dyrektor}" style="width:100%" id="dyrektor">
+                                            <f:selectItems value="#{addUserBeansAdmin.dyrektory}" var="dyrektor" itemLabel="#{dyrektor.wyswietl()}" itemValue="#{dyrektor}"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{addUserBeansAdmin.add}" />
+                            </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-close" value="Anuluj" actionListener="#{usersBeansAdmin.anulujDodaj}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

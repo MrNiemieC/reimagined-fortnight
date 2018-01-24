@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Templates/MainTemplate.xhtml">
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable  rendered="#{przedmiotKlasBeansAdmin.view}" id="przedmiotKlasa" value="#{przedmiotKlasBeansAdmin.przedmiotKlasy}" var="przedmiotKlasa" selection="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa}"  rowKey="#{przedmiotKlasa.id}">
+                        <f:facet name="header">
+                            Przedmioty Klas
+                        </f:facet>
+                        <p:column headerText="Przedmiot">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasa.przedmiot.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{przedmiotKlasBeansAdmin.przedmioty}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Klasa">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasa.klasa.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{przedmiotKlasBeansAdmin.klasy}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nauczyciel">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasa.nauczyciel.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{przedmiotKlasBeansAdmin.nauczyciele}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:90px">
+                            <p:commandButton update=":form :form3" icon="ui-icon-pencil" value="Edytuj" actionListener="#{przedmiotKlasBeansAdmin.setEdit(true)}">
+                                <f:setPropertyActionListener value="#{przedmiotKlasa}" target="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa}" />
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuwanie" actionListener="#{przedmiotKlasBeansAdmin.setDelete(true)}" />
+                            <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{przedmiotKlasBeansAdmin.setDodaj(true)}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form2">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable rendered="#{przedmiotKlasBeansAdmin.delete}" id="przedmiotKlasy" value="#{przedmiotKlasBeansAdmin.przedmiotKlasy2}" var="przedmiotKlasy" selection="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasy}"  rowKey="#{przedmiotKlasy.id}">
+                        <f:facet name="header">
+                            Przedmiot Klasy
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                        <p:column headerText="Przedmiot">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasy.przedmiot.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{przedmiotKlasy.przedmiot}" style="width:100%">
+                                        <f:selectItems value="#{przedmiotKlasBeansAdmin.przedmioty}" var="przedmiot" itemLabel="#{przedmiot.nazwa}" itemValue="#{przedmiot}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Klasa">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasy.klasa.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{przedmiotKlasy.klasa}" style="width:100%">
+                                        <f:selectItems value="#{przedmiotKlasBeansAdmin.klasy}" var="klasa" itemLabel="#{klasa.nazwa}" itemValue="#{klasa}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nauczyciel">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasy.nauczyciel.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{przedmiotKlasy.nauczyciel}" style="width:100%">
+                                        <f:selectItems value="#{przedmiotKlasBeansAdmin.nauczyciele}" var="nauczyciel" itemLabel="#{nauczyciel.wyswietl()}" itemValue="#{nauczyciel}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuń" actionListener="#{przedmiotKlasBeansAdmin.deletePrzedmiotKlas()}" />
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Wstecz" actionListener="#{przedmiotKlasBeansAdmin.wstecz()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form3">
+                    <p:dataTable id="przedmiotKlasa" value="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa}" var="przedmiotKlasa" rendered="#{przedmiotKlasBeansAdmin.edit}" editable="true" editMode="cell" >
+                        <p:column headerText="Przedmiot">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa.przedmiot.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa.przedmiot}" style="width:100%">
+                                        <f:selectItems value="#{przedmiotKlasBeansAdmin.przedmioty}" var="przedmiot" itemLabel="#{przedmiot.nazwa}" itemValue="#{przedmiot}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Klasa">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa.klasa.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa.klasa}" style="width:100%">
+                                        <f:selectItems value="#{przedmiotKlasBeansAdmin.klasy}" var="klasa" itemLabel="#{klasa.nazwa}" itemValue="#{klasa}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nauczyciel">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa.nauczyciel.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa.nauczyciel}" style="width:100%">
+                                        <f:selectItems value="#{przedmiotKlasBeansAdmin.nauczyciele}" var="nauczyciel" itemLabel="#{nauczyciel.wyswietl()}" itemValue="#{nauczyciel}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form3" icon="ui-icon-check" value="Zapisz" actionListener="#{przedmiotKlasBeansAdmin.zapisz(przedmiotKlasBeansAdmin.selectedPrzedmiotKlasa)}" />
+                            <p:commandButton update=":form :form3" icon="ui-icon-close" value="Anuluj" actionListener="#{przedmiotKlasBeansAdmin.anuluj()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form4">
+                    <p:panelGrid class="ui-noborder" rendered="#{przedmiotKlasBeansAdmin.dodaj}">  
+                        <f:facet name="header">  
+                            <p:row>  
+                                <p:column style="font-weight: bold;">Przedmiot</p:column>  
+                                <p:column style="font-weight: bold;">Klasa</p:column>   
+                                <p:column style="font-weight: bold;">Nauczyciel</p:column> 
+                                <p:column/>
+                                <p:column/>
+                            </p:row>  
+                        </f:facet>
+                        <p:row>  
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addPrzedmiotKlasBeansAdmin.przedmiot.nazwa}" /></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{addPrzedmiotKlasBeansAdmin.przedmiot}" style="width:100%" id="przedmiot">
+                                            <f:selectItems value="#{addPrzedmiotKlasBeansAdmin.przedmioty}" var="przedmiot" itemLabel="#{przedmiot.nazwa}" itemValue="#{przedmiot}"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addPrzedmiotKlasBeansAdmin.klasa.nazwa}" /></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{addPrzedmiotKlasBeansAdmin.klasa}" style="width:100%" id="klasa">
+                                            <f:selectItems value="#{addPrzedmiotKlasBeansAdmin.klasy}" var="klasa" itemLabel="#{klasa.nazwa}" itemValue="#{klasa}"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addPrzedmiotKlasBeansAdmin.nauczyciel.wyswietl()}" /></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{addPrzedmiotKlasBeansAdmin.nauczyciel}" style="width:100%" id="nauczyciel">
+                                            <f:selectItems value="#{addPrzedmiotKlasBeansAdmin.nauczyciele}" var="nauczyciel" itemLabel="#{nauczyciel.wyswietl()}" itemValue="#{nauczyciel}"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{addPrzedmiotKlasBeansAdmin.add}" />
+                            </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-close" value="Anuluj" actionListener="#{przedmiotKlasBeansAdmin.anulujDodaj}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Templates/MainTemplate.xhtml">
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable  rendered="#{ocenyBeansAdmin.view}" id="ocena" value="#{ocenyBeansAdmin.oceny}" var="ocena" selection="#{ocenyBeansAdmin.selectedOceny}"  rowKey="#{ocena.id}">
+                        <f:facet name="header">
+                            Oceny
+                        </f:facet>
+                        <p:column headerText="Wartosc">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{ocena.wartosc}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInput" value="#{ocena.wartosc}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Sprawdzian">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{ocena.sprawdzian.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{ocenyBeansAdmin.sprawdziany}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Uczeń">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{ocena.uczen.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{ocenyBeansAdmin.uczniowie}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:90px">
+                            <p:commandButton update=":form :form3" icon="ui-icon-pencil" value="Edytuj" actionListener="#{ocenyBeansAdmin.setEdit(true)}">
+                                <f:setPropertyActionListener value="#{ocena}" target="#{ocenyBeansAdmin.selectedOcena}" />
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuwanie" actionListener="#{ocenyBeansAdmin.setDelete(true)}" />
+                            <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{ocenyBeansAdmin.setDodaj(true)}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form2">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable rendered="#{ocenyBeansAdmin.delete}" id="ocena" value="#{ocenyBeansAdmin.oceny2}" var="ocena" selection="#{ocenyBeansAdmin.selectedOceny}"  rowKey="#{ocena.id}">
+                        <f:facet name="header">
+                            Oceny
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                        <p:column headerText="Wartosc">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{ocena.wartosc}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="nazwa" value="#{ocena.wartosc}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Sprawdzian">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{ocena.sprawdzian.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{ocena.sprawdzian}" style="width:100%">
+                                        <f:selectItems value="#{ocenyBeansAdmin.sprawdziany}" var="sprawdzian" itemLabel="#{sprawdzian.wyswietl()}" itemValue="#{sprawdzian}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Uczeń">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{ocena.uczen.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{ocena.uczen}" style="width:100%">
+                                        <f:selectItems value="#{ocenyBeansAdmin.uczniowie}" var="uczen" itemLabel="#{uczen.wyswietl()}" itemValue="#{uczen}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuń" actionListener="#{ocenyBeansAdmin.deleteOcena()}" />
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Wstecz" actionListener="#{ocenyBeansAdmin.wstecz()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form3">
+                    <p:dataTable id="ocena" value="#{ocenyBeansAdmin.selectedOcena}" var="ocena" rendered="#{ocenyBeansAdmin.edit}" editable="true" editMode="cell" >
+                        <p:column headerText="Wartosc">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{ocenyBeansAdmin.selectedOcena.wartosc}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="wartosc" value="#{ocenyBeansAdmin.selectedOcena.wartosc}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Sprawdzian">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{ocenyBeansAdmin.selectedOcena.sprawdzian.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{ocenyBeansAdmin.selectedOcena.sprawdzian}" style="width:100%">
+                                        <f:selectItems value="#{ocenyBeansAdmin.sprawdziany}" var="sprawdzian" itemLabel="#{sprawdzian.wyswietl()}" itemValue="#{sprawdzian}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Uczen">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{ocenyBeansAdmin.selectedOcena.uczen.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{ocenyBeansAdmin.selectedOcena.uczen}" style="width:100%">
+                                        <f:selectItems value="#{ocenyBeansAdmin.uczniowie}" var="uczen" itemLabel="#{uczen.wyswietl()}" itemValue="#{uczen}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form3" icon="ui-icon-check" value="Zapisz" actionListener="#{ocenyBeansAdmin.zapisz(ocenyBeansAdmin.selectedOcena)}" />
+                            <p:commandButton update=":form :form3" icon="ui-icon-close" value="Anuluj" actionListener="#{ocenyBeansAdmin.anuluj()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form4">
+                    <p:panelGrid class="ui-noborder" rendered="#{ocenyBeansAdmin.dodaj}">  
+                        <f:facet name="header">  
+                            <p:row>  
+                                <p:column style="font-weight: bold;">Wartosc</p:column>  
+                                <p:column style="font-weight: bold;">Sprawdzian</p:column>  
+                                <p:column style="font-weight: bold;">Uczen</p:column>   
+                                <p:column/>
+                                <p:column/>
+                            </p:row>  
+                        </f:facet>
+                        <p:row>  
+                            <p:column>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{addOcenaBeansAdmin.wartosc}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="wartosc" value="#{addOcenaBeansAdmin.wartosc}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{addOcenaBeansAdmin.sprawdzian.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{addOcenaBeansAdmin.sprawdzian}" style="width:100%" id="sprawdzian">
+                                        <f:selectItems value="#{addOcenaBeansAdmin.sprawdziany}" var="sprawdzian" itemLabel="#{sprawdzian.wyswietl()}" itemValue="#{sprawdzian}"/>
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                            <p:column>
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{addOcenaBeansAdmin.uczen.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{addOcenaBeansAdmin.uczen}" style="width:100%" id="uczen">
+                                        <f:selectItems value="#{addOcenaBeansAdmin.uczniowie}" var="uczen" itemLabel="#{uczen.wyswietl()}" itemValue="#{uczen}"/>
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{addOcenaBeansAdmin.add}" />
+                            </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-close" value="Anuluj" actionListener="#{ocenyBeansAdmin.anulujDodaj}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

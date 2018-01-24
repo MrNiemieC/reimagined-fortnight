@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Templates/MainTemplate.xhtml">
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable  rendered="#{przedmiotKlasBeansAdmin.view}" id="przedmiotKlasa" value="#{przedmiotKlasBeansAdmin.przedmiotKlasy}" var="przedmiotKlasa">
+                        <f:facet name="header">
+                            Przedmioty Klas
+                        </f:facet>
+                        <p:column headerText="Przedmiot">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasa.przedmiot.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{przedmiotKlasBeansAdmin.przedmioty}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Klasa">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasa.klasa.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{przedmiotKlasBeansAdmin.klasy}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nauczyciel">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{przedmiotKlasa.nauczyciel.wyswietl()}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{przedmiotKlasBeansAdmin.nauczyciele}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

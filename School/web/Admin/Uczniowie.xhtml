@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../Templates/MainTemplate.xhtml">
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable  rendered="#{uczniowieBeansAdmin.view}" id="uczen" value="#{uczniowieBeansAdmin.uczniowie}" var="uczen" selection="#{uczniowieBeansAdmin.selectedUczen}"  rowKey="#{uczen.id}">
+                        <f:facet name="header">
+                            Uczniowie
+                        </f:facet>
+                        <p:column headerText="Imię">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{uczen.imie}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="imie" value="#{uczen.imie}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nazwisko">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{uczen.nazwisko}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="nazwisko" value="#{uczen.nazwisko}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Klasa">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{uczen.klasa.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectManyMenu value="#{uczniowieBeansAdmin.klasy}" style="width:100%">
+                                    </h:selectManyMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:90px">
+                            <p:commandButton update=":form :form3" icon="ui-icon-pencil" value="Edytuj" actionListener="#{uczniowieBeansAdmin.setEdit(true)}">
+                                <f:setPropertyActionListener value="#{uczen}" target="#{uczniowieBeansAdmin.selectedUczen}" />
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuwanie" actionListener="#{uczniowieBeansAdmin.setDelete(true)}" />
+                            <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{uczniowieBeansAdmin.setDodaj(true)}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form2">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable rendered="#{uczniowieBeansAdmin.delete}" id="uczen" value="#{uczniowieBeansAdmin.uczniowie2}" var="uczen" selection="#{uczniowieBeansAdmin.selectedUczniowie}"  rowKey="#{uczen.id}">
+                        <f:facet name="header">
+                            Uczniowie
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                        <p:column headerText="Imię">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{uczen.imie}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="imie" value="#{uczen.imie}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nazwisko">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{uczen.nazwisko}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="nazwisko" value="#{uczen.nazwisko}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Klasa">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{uczen.klasa.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{uczen.klasa}" style="width:100%">
+                                        <f:selectItems value="#{uczniowieBeansAdmin.klasy}" var="klasa" itemLabel="#{klasa.nazwa}" itemValue="#{klasa}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuń" actionListener="#{uczniowieBeansAdmin.deleteUczen()}" />
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Wstecz" actionListener="#{uczniowieBeansAdmin.wstecz()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form3">
+                    <p:dataTable id="uczen" value="#{uczniowieBeansAdmin.selectedUczen}" var="uczen" rendered="#{uczniowieBeansAdmin.edit}" editable="true" editMode="cell" >
+                        <p:column headerText="Imię">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{uczniowieBeansAdmin.selectedUczen.imie}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="imie" value="#{uczniowieBeansAdmin.selectedUczen.imie}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nazwisko">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{uczniowieBeansAdmin.selectedUczen.nazwisko}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="nazwisko" value="#{uczniowieBeansAdmin.selectedUczen.nazwisko}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Klasa">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{uczniowieBeansAdmin.selectedUczen.klasa.nazwa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneListbox value="#{uczniowieBeansAdmin.selectedUczen.klasa}" style="width:100%">
+                                        <f:selectItems value="#{uczniowieBeansAdmin.klasy}" var="klasa" itemLabel="#{klasa.nazwa}" itemValue="#{klasa}" />
+                                    </h:selectOneListbox>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form3" icon="ui-icon-check" value="Zapisz" actionListener="#{uczniowieBeansAdmin.zapisz(uczniowieBeansAdmin.selectedUczen)}" />
+                            <p:commandButton update=":form :form3" icon="ui-icon-close" value="Anuluj" actionListener="#{uczniowieBeansAdmin.anuluj()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form4">
+                    <p:panelGrid class="ui-noborder" rendered="#{uczniowieBeansAdmin.dodaj}">  
+                        <f:facet name="header">  
+                            <p:row>  
+                                <p:column style="font-weight: bold;">Imię</p:column>  
+                                <p:column style="font-weight: bold;">Nazwisko</p:column>   
+                                <p:column style="font-weight: bold;">Klasa</p:column>
+                                <p:column/>
+                                <p:column/>
+                            </p:row>  
+                        </f:facet>
+                        <p:row>  
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addUczniowieBeansAdmin.imie}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="imie" value="#{addUczniowieBeansAdmin.imie}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addUczniowieBeansAdmin.nazwisko}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="nazwisko" value="#{addUczniowieBeansAdmin.nazwisko}"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{addUczniowieBeansAdmin.klasa.nazwa}" /></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{addUczniowieBeansAdmin.klasa}" style="width:100%" id="klasa">
+                                            <f:selectItems value="#{addUczniowieBeansAdmin.klasy}" var="klasa" itemLabel="#{klasa.nazwa}" itemValue="#{klasa}"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{addUczniowieBeansAdmin.add}" />
+                            </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-close" value="Anuluj" actionListener="#{uczniowieBeansAdmin.anulujDodaj}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

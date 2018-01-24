@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../Templates/MainTemplate.xhtml">
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable rendered="#{dyrektorzyBeansAdmin.view}" id="dyrektor" value="#{dyrektorzyBeansAdmin.dyrektorzy}" var="dyrektor" selection="#{dyrektorzyBeansAdmin.selectedDyrektor}"  rowKey="#{dyrektor.id}">
+                        <f:facet name="header">
+                            Dyrektorzy
+                        </f:facet>
+                        <p:column headerText="Imię">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{dyrektor.imie}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInput" value="#{dyrektor.imie}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nazwisko">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{dyrektor.nazwisko}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="nazwisko" value="#{dyrektor.nazwisko}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:90px">
+                            <p:commandButton update=":form :form3" icon="ui-icon-pencil" value="Edytuj" actionListener="#{dyrektorzyBeansAdmin.setEdit(true)}">
+                                <f:setPropertyActionListener value="#{dyrektor}" target="#{dyrektorzyBeansAdmin.selectedDyrektor}" />
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuwanie" actionListener="#{dyrektorzyBeansAdmin.setDelete(true)}" />
+                            <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{dyrektorzyBeansAdmin.setDodaj(true)}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form2">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable rendered="#{dyrektorzyBeansAdmin.delete}" id="dyrektor" value="#{dyrektorzyBeansAdmin.dyrektorzy2}" var="dyrektor" selection="#{dyrektorzyBeansAdmin.selectedDyrektorzy}"  rowKey="#{dyrektor.id}">
+                        <f:facet name="header">
+                            Dyrektorzy
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                        <p:column headerText="Imię">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{dyrektor.imie}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="imie" value="#{dyrektor.imie}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nazwisko">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{dyrektor.nazwisko}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="nazwisko" value="#{dyrektor.nazwisko}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Usuń" actionListener="#{dyrektorzyBeansAdmin.deleteDyrektor()}" />
+                            <p:commandButton update=":form :form2" icon="ui-icon-close" value="Wstecz" actionListener="#{dyrektorzyBeansAdmin.wstecz()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form3">
+                    <p:dataTable id="dyrektor3" value="#{dyrektorzyBeansAdmin.selectedDyrektor}" var="dyrektor3" rendered="#{dyrektorzyBeansAdmin.edit}" editable="true" editMode="cell">
+                        <p:column headerText="Imie">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{dyrektorzyBeansAdmin.selectedDyrektor.imie}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="imie" value="#{dyrektorzyBeansAdmin.selectedDyrektor.imie}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Nazwisko">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{dyrektorzyBeansAdmin.selectedDyrektor.nazwisko}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="nazwisko" value="#{dyrektorzyBeansAdmin.selectedDyrektor.nazwisko}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton update=":form :form3" icon="ui-icon-check" value="Zapisz" actionListener="#{dyrektorzyBeansAdmin.zapisz(dyrektorzyBeansAdmin.selectedDyrektor)}" />
+                            <p:commandButton update=":form :form3" icon="ui-icon-close" value="Anuluj" actionListener="#{dyrektorzyBeansAdmin.anuluj()}" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="form4">
+                    <p:panelGrid class="ui-noborder" rendered="#{dyrektorzyBeansAdmin.dodaj}">  
+                        <f:facet name="header">  
+                            <p:row>  
+                                <p:column style="font-weight: bold;">Imie</p:column>  
+                                <p:column style="font-weight: bold;">Nazwisko</p:column>   
+                                <p:column/>
+                                <p:column/>
+                            </p:row>  
+                        </f:facet>
+                        <p:row>  
+                            <p:column>  
+                                <p:inputText id="imie" value="#{addDyrektorBeansAdmin.imie}">  
+                                </p:inputText>  
+                            </p:column>
+                            <p:column>  
+                                <p:inputText id="nazwisko" value="#{addDyrektorBeansAdmin.nazwisko}">  
+                                </p:inputText>  
+                            </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-check" value="Dodaj" actionListener="#{addDyrektorBeansAdmin.add()}" />
+                            </p:column>
+                            <p:column> 
+                                <p:commandButton update=":form :form4" icon="ui-icon-close" value="Anuluj" actionListener="#{dyrektorzyBeansAdmin.anulujDodaj}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
