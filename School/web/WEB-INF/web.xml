@@ -4,6 +4,38 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>Filtry.AdminFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>UczenFilter</filter-name>
+        <filter-class>Filtry.UczenFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>NauczycielFilter</filter-name>
+        <filter-class>Filtry.NauczycielFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>DyrektorFilter</filter-name>
+        <filter-class>Filtry.DyrektorFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>DyrektorFilter</filter-name>
+        <url-pattern>/faces/Dyrektor/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>NauczycielFilter</filter-name>
+        <url-pattern>/faces/Nauczyciel/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>UczenFilter</filter-name>
+        <url-pattern>/faces/Uczen/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/faces/Admin/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
