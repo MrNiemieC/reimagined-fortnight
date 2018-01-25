@@ -202,6 +202,7 @@
                                     <f:facet name="output"><h:outputText value="#{addUserBeansAdmin.nauczyciel.wyswietl()}" /></f:facet>
                                     <f:facet name="input">
                                         <h:selectOneMenu value="#{addUserBeansAdmin.nauczyciel}" style="width:100%" id="nauczyciel">
+                                            <f:selectItem itemLabel="" itemValue="" />
                                             <f:selectItems value="#{addUserBeansAdmin.nauczyciele}" var="nauczyciel" itemLabel="#{nauczyciel.wyswietl()}" itemValue="#{nauczyciel}"/>
                                         </h:selectOneMenu>
                                     </f:facet>
@@ -212,6 +213,7 @@
                                     <f:facet name="output"><h:outputText value="#{addUserBeansAdmin.uczen.wyswietl()}" /></f:facet>
                                     <f:facet name="input">
                                         <h:selectOneMenu value="#{addUserBeansAdmin.uczen}" style="width:100%" id="uczen">
+                                            <f:selectItem itemLabel="" itemValue="" />
                                             <f:selectItems value="#{addUserBeansAdmin.uczniowie}" var="uczen" itemLabel="#{uczen.wyswietl()}" itemValue="#{uczen}"/>
                                         </h:selectOneMenu>
                                     </f:facet>
@@ -222,6 +224,7 @@
                                     <f:facet name="output"><h:outputText value="#{addUserBeansAdmin.dyrektor.wyswietl()}" /></f:facet>
                                     <f:facet name="input">
                                         <h:selectOneMenu value="#{addUserBeansAdmin.dyrektor}" style="width:100%" id="dyrektor">
+                                            <f:selectItem itemLabel="" itemValue="" />
                                             <f:selectItems value="#{addUserBeansAdmin.dyrektory}" var="dyrektor" itemLabel="#{dyrektor.wyswietl()}" itemValue="#{dyrektor}"/>
                                         </h:selectOneMenu>
                                     </f:facet>
